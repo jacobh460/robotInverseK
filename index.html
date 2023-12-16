@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<head>
+    <title>Inverse Kinematics Trajectory Planner</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+    <div id="container">
+        <div id="left">
+            <canvas id="mainCanvas"></canvas>
+        </div>
+
+        <div id="right">
+            
+            <div id="curveInfo">
+                <select id="curveList" class="property">
+                    <option value="bezier 1">bezier one</option>
+                    <option value="bezier 1">bezier one</option>
+                    <option value="bezier 1">bezier one</option>
+                    <option value="bezier 1">bezier one</option>
+                </select>
+                <input id="curveName" class="property">
+            </div>
+            <div id="curveControls">
+                <input class="property" type="range" min="0" max="100" value="0" id="t">
+            </div>
+
+        </div>
+    </div>
+    <script src="main.js" type="module"></script>
+</body>
+</html>

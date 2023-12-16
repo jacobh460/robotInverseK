@@ -1,0 +1,66 @@
+* {
+    box-sizing: border-box;
+    outline: 0px;
+    border-width: 0px;
+}
+
+body {
+    margin: 0px;
+    padding: 0px;
+    background-color: #212121;
+}
+
+#container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    position: absolute;
+
+}
+
+#left {
+    flex-grow: 1;
+    height: 100%;
+    overflow: hidden;
+}
+
+#right {
+    padding: 5px 15px 15px 15px;
+    height: 100%;
+    width: 25%;
+    min-width: 250px;
+    background: #282828;
+    float: right;
+    display: flex;
+    flex-direction: column;
+}
+
+#mainCanvas {
+    margin: 0px 0px;
+    padding: 0px 0px;
+}
+
+.property {
+    margin-top: 10px;
+    width: 100%;
+    background-color: #313030;
+    color: white;
+    font-size: 15px;
+    padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-family: 'consolas';
+    border-radius: 2px;
+}
+
+
+#curveControls {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    height: 25px;
+}
+
+#t {
+    width: 100%;
+}
