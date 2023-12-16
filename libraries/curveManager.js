@@ -1,4 +1,4 @@
-import Spline from "./bezier.js";
+import Spline from "./Spline.js";
 import Point from "./point.js";
 import Vector2 from "./vector2.js";
 

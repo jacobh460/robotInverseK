@@ -1,10 +1,10 @@
-import Vector2 from "./vector2.js";
-import Point from "./point.js";
-import Utils from "./utils.js";
-import Robot from "./robot.js";
-import InputManager from "./inputManager.js";
-import CurveManager from "./curveManager.js";
-import Bezier from "./bezier.js";
+import Vector2 from "./libraries/vector2.js";
+import Point from "./libraries/point.js";
+import Utils from "./libraries/utils.js";
+import Robot from "./libraries/robot.js";
+import InputManager from "./libraries/inputManager.js";
+import CurveManager from "./libraries/curveManager.js";
+import Spline from "./libraries/Spline.js";
 
 /** @type {HTMLCanvasElement} */
 const canvas = document.getElementById("mainCanvas");
