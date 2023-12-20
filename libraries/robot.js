@@ -45,7 +45,7 @@ export default class Robot {
             const r0 = Math.sqrt(position.x ** 2 + position.y ** 2);
 
             const theta0 = Math.atan2(position.y, position.x);
-            const theta2 = Math.PI - this.liftAngle - theta0;
+            const theta2 = this.liftAngle - theta0;
             const theta3 = Math.PI - Math.asin(r0 * (Math.sin(theta2) / this.r1));
             this.L1 = Math.max(Math.min(this.r1 * Math.sin(Math.PI - theta2 - theta3) / Math.sin(theta2), this.L1max), this.L1min);
         }

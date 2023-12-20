@@ -13,6 +13,8 @@ const ctx = canvas.getContext("2d");
 
 const left = document.getElementById("left");
 
+const timeControl = document.getElementById("timeControl");
+
 const centimeter = 10;
 
 /** @type {Robot} */
@@ -24,10 +26,10 @@ const inputManager = new InputManager(ctx);
 /** @type {CurveManager} */
 const curveManager = new CurveManager();
 curveManager.createCurve();
-curveManager.addPoint(10, 10);
-curveManager.addPoint(10, 10);
-curveManager.addPoint(10, 10);
-curveManager.addPoint(10, 10);
+curveManager.addPoint(10, 10, 0);
+
+curveManager.addPoint(10, 10, 2);
+
 
 
 //reset canvas to prepare for drawing new frame
@@ -104,12 +106,14 @@ function loop() {
     inputManager.update();
 
     drawGrid();
-    
-    robot.doInverseKinematics(new Vector2(25, 100));
+
+    const t = timeControl.value * curveManager.currentCurve.points[curveManager.currentCurve.points.length - 1].time;
+    const targetPos = curveManager.currentCurve.evaluate(t);
+    robot.doInverseKinematics(targetPos);
     robot.draw(ctx);
 
     curveManager.handleInput(inputManager.mouseWorldPos, inputManager.mouseLeftDown);
-    curveManager.draw(ctx, 0.001);
+    curveManager.draw(ctx, 0.05);
 
     {
         const oldTransform = ctx.getTransform();
@@ -120,6 +124,7 @@ function loop() {
         log(`Mouse World Position: ${inputManager.mouseWorldPos.x}, ${inputManager.mouseWorldPos.y}`);
         log(`${oldTransform.a}, ${oldTransform.b}, ${oldTransform.c}, ${oldTransform.d}, ${oldTransform.e}, ${oldTransform.f}`)
         log(`FPS: ${Math.round(1/deltaTime)}`);
+        log(`t: ${t}`);
 
         ctx.setTransform(oldTransform);
     }

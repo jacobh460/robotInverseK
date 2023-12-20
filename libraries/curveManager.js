@@ -15,7 +15,7 @@ export default class CurveManager{
 
     constructor()
     {
-        
+        this.dropdown = document.getElementById("curveList");
     }
 
 
@@ -53,15 +53,15 @@ export default class CurveManager{
      * @returns index of new curve
      */
     createCurve(){
-        const name = `bezier (${this.#inc++})`;
+        const name = `spline (${this.#inc++})`;
         this.#curves.push(new Spline(name));
         this.#currentCurveIndex = this.#curves.length - 1;
         return this.#currentCurveIndex;
     }
 
-    addPoint(x=0, y=0){
+    addPoint(x=0, y=0, time=0){
         this.#curves[this.#currentCurveIndex].points.push(
-            new Point(x, y)
+            new Point(x, y, time)
         );
     }
 
@@ -88,10 +88,14 @@ export default class CurveManager{
      */
     handleInput(mouseWorldPos, mouseLeftDown){
         if (mouseLeftDown){
-            if (this.#dragging != null) this.#dragging.position = mouseWorldPos.copy();
+            if (this.#dragging != null){
+                this.#dragging.position = mouseWorldPos.copy();
+                this.currentCurve.calc();
+            }
             else this.#dragging = this.selectionTest(mouseWorldPos);
         }
         else{
+            //if (this.#dragging != null) this.currentCurve.calc();
             this.#dragging = null;
         }
 

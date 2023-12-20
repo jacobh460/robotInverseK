@@ -4,12 +4,19 @@ import Vector2 from "./vector2.js";
 //represents a user-selectable and movable point
 export default class Point{
 
-    /** @param {Number} x  */
-    /** @param {Number} y  */
-    constructor(x, y, radius=3, color="rgba(52, 128, 255, .75)"){
+    /**
+     * 
+     * @param {Number} x 
+     * @param {Number} y 
+     * @param {Number} time 
+     * @param {Number} radius 
+     * @param {String} color 
+     */
+    constructor(x, y, time, radius=3, color="rgba(52, 128, 255, .75)"){
         this.position = new Vector2(x, y);
         this.hidden = false;
         this.radius = radius;
+        this.time = time;
         this.rad_sq = this.radius**2;
         this.color = color;
     }
