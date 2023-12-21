@@ -11,18 +11,31 @@
         </div>
 
         <div id="right">
-            
+            <div id="addRemoveButtonGroup">
+                <button id="addSplineButton">+</button>
+                <button id="removeSplineButton">-</button>
+            </div>
             <div id="curveInfo">
                 <select id="curveList" class="property">
-                    <option value="bezier 1">bezier one</option>
-                    <option value="bezier 1">bezier one</option>
-                    <option value="bezier 1">bezier one</option>
-                    <option value="bezier 1">bezier one</option>
                 </select>
-                <input id="curveName" class="property">
+                <input id="curveName" type="text" class="property">
             </div>
             <div id="curveControls">
                 <input class="property" id="timeControl" type="range" min="0" max="1" value="0" id="t" step="0.01">
+            </div>
+
+            <div id="addRemovePointButtonGroup">
+                <button id="addPointButton">+</button>
+                <button id="removePointButton">-</button>
+            </div>
+            <div id="points">
+                <div class="pointData">
+                    <div class="position">
+                        <input class="pointProperty left" type="number">
+                        <input class="pointProperty left right" type="number">
+                        <input class="pointProperty right" type="number">
+                    </div>
+                </div>
             </div>
 
         </div>

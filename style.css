@@ -64,3 +64,59 @@ body {
 #t {
     width: 100%;
 }
+
+button{
+    background-color: #313030;
+    color: white;
+    font-size: 20px;
+}
+
+.position{
+    display: flex;
+    flex-direction: row;
+    margin-top: 5px;
+}
+
+.pointProperty{
+    width: 100%;
+    background-color: #313030;
+    color: white;
+    font-size: 15px;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+#addRemovePointButtonGroup{
+    margin-top: 5px;
+}
+
+.pointData{
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.left{
+    margin-right: 5px;
+}
+
+.right{
+    margin-left: 5px;
+}
+
+#points{
+    overflow-y: auto;
+}
+
+#timeControl{
+    padding-left: 0;
+    margin-top: 0;
+}

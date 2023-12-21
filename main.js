@@ -26,11 +26,6 @@ const inputManager = new InputManager(ctx);
 /** @type {CurveManager} */
 const curveManager = new CurveManager();
 curveManager.createCurve();
-curveManager.addPoint(10, 10, 0);
-
-curveManager.addPoint(10, 10, 2);
-
-
 
 //reset canvas to prepare for drawing new frame
 function clear() {
@@ -104,16 +99,20 @@ function loop() {
 
 
     inputManager.update();
+    curveManager.handleInput(inputManager.mouseWorldPos, inputManager.mouseLeftDown);
+    curveManager.currentCurve.calc();
 
     drawGrid();
 
-    const t = timeControl.value * curveManager.currentCurve.points[curveManager.currentCurve.points.length - 1].time;
-    const targetPos = curveManager.currentCurve.evaluate(t);
-    robot.doInverseKinematics(targetPos);
-    robot.draw(ctx);
-
-    curveManager.handleInput(inputManager.mouseWorldPos, inputManager.mouseLeftDown);
+    let t = 0;
+    if (curveManager.currentCurve.points.length > 0)
+    {
+        t = timeControl.value * curveManager.currentCurve.points[curveManager.currentCurve.points.length - 1].t;
+        const targetPos = curveManager.currentCurve.evaluate(t);
+        robot.doInverseKinematics(targetPos);
+    }
     curveManager.draw(ctx, 0.05);
+    robot.draw(ctx);
 
     {
         const oldTransform = ctx.getTransform();

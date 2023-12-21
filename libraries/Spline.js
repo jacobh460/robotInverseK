@@ -40,6 +40,7 @@ export default class Spline {
 
     // https://en.wikipedia.org/wiki/Spline_(mathematics)
     #spline_impl(x){
+        if (this.points.length == 0) return [];
         const n = this.points.length - 1;
         const output_set = new Array(n);
         const a = new Array(n+1);
@@ -57,7 +58,7 @@ export default class Spline {
         }
 
         for (let i = 0; i < n; ++i){
-            h[i] = this.points[i+1].time - this.points[i].time;
+            h[i] = this.points[i+1].t - this.points[i].t;
         }
 
         for (let i = 1; i < n; ++i){
@@ -69,7 +70,7 @@ export default class Spline {
         z[0] = 0;
 
         for (let i = 1; i < n; ++i){
-            l[i] = 2 * (this.points[i + 1].time - this.points[i - 1].time) - h[i - 1] * mu[i - 1];
+            l[i] = 2 * (this.points[i + 1].t - this.points[i - 1].t) - h[i - 1] * mu[i - 1];
             mu[i] = h[i] / l[i];
             z[i] = (alpha[i] - h[i - 1] * z[i - 1]) / l[i];
         }
@@ -81,14 +82,13 @@ export default class Spline {
         for (let j = n - 1; j >= 0; j--)
         {
             c[j] = z[j] - mu[j] * c[j + 1];
-            b[j] = (a[j + 1] - a[j]) / h[j] - 
-                    (h[j] * (c[j + 1] + 2 * c[j])) / 3.0;
+            b[j] = (a[j + 1] - a[j]) / h[j] - (h[j] * (c[j + 1] + 2 * c[j])) / 3.0;
             d[j] = (c[j + 1] - c[j]) / (3.0 * h[j]);
         }
 
         for (let i = 0; i < n; ++i){
             output_set[i] = new set_element(
-                a[i], b[i], c[i], d[i], this.points[i].time
+                a[i], b[i], c[i], d[i], this.points[i].t
             );
         }
 
@@ -102,8 +102,11 @@ export default class Spline {
 
     evaluate(t){
         let current_piece = 0;
-        if (current_piece > this.set_x.length - 1) return this.points[current_piece].position;
-        while (t > this.points[current_piece + 1].time) current_piece++;
+        if (this.points.length == 0) return new Vector2(15, 115);
+        if (this.points.length == 1) return this.points[0].position;
+        if (this.set_x.length == 0) return this.points[this.points.length - 1].position;
+
+        while (t > this.points[current_piece + 1].t) current_piece++;
 
         let x;
         {
@@ -129,19 +132,23 @@ export default class Spline {
     draw(ctx, step = 0.05) {
         ctx.lineWidth = 1;
         ctx.strokeStyle = "#49b74d";
+        ctx.lineCap = "round";
+        ctx.lineJoin = "bevel";
 
-        ctx.beginPath();
-        const start = this.evaluate(0);
-        ctx.moveTo(start.x, start.y);
-        //draw spline path
-        for (let t = 0; t < this.points[this.points.length - 1].time; t += step){
-            const pos = this.evaluate(t);
-            ctx.lineTo(pos.x, pos.y);
+        if (this.points.length > 0){
+            ctx.beginPath();
+            const start = this.evaluate(0);
+            ctx.moveTo(start.x, start.y);
+            //draw spline path
+            for (let t = step; t < this.points[this.points.length - 1].t; t += step){
+                const pos = this.evaluate(t);
+                ctx.lineTo(pos.x, pos.y);
+            }
+
+            const end = this.points[this.points.length - 1].position;
+            ctx.lineTo(end.x, end.y);
+            ctx.stroke();
         }
-
-        const end = this.points[this.points.length - 1].position;
-        ctx.lineTo(end.x, end.y);
-        ctx.stroke();
         
         for (const point of this.points){
             point.draw(ctx);
