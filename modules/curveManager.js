@@ -145,7 +145,7 @@ export default class CurveManager{
 
     #createPointElement(i){
         const element = this.currentCurve.points[i].createElement();
-        element.children[0].addEventListener("keydown", (e) => {
+        element.addEventListener("keydown", (e) => {
             if (e.keyCode == 46){
                 this.currentCurve.points.splice(i, 1);
                 this.resetPointGui();

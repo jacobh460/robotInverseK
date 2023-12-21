@@ -1,4 +1,9 @@
 export default class Vector2{
+    /**
+     * 
+     * @param {Number} x 
+     * @param {Number} y 
+     */
     constructor(x, y){
         /** @type {Number} */
         this.x = x;
@@ -9,7 +14,7 @@ export default class Vector2{
     /**
      * 
      * @param {Number|Vector2} other 
-     * @returns 
+     * @returns {Vector2}
      */
     add(other){
         if (typeof(other) == "number"){
@@ -23,7 +28,7 @@ export default class Vector2{
     /**
      * 
      * @param {Number|Vector2} other 
-     * @returns 
+     * @returns {Vector2}
      */
     sub(other){
         if (typeof(other) == "number"){
@@ -36,7 +41,7 @@ export default class Vector2{
     /**
      * 
      * @param {Number} scalar 
-     * @returns 
+     * @returns {Vector2}
      */
 
     mult(scalar){
@@ -46,7 +51,7 @@ export default class Vector2{
     /**
      * 
      * @param {Number} scalar 
-     * @returns 
+     * @returns {Vector2}
      */
     div(scalar){
         return new Vector2(this.x / scalar, this.y / scalar);
@@ -55,12 +60,16 @@ export default class Vector2{
     /**
      * 
      * @param {Vector2} other 
-     * @returns 
+     * @returns {Vector2}
      */
     dot(other){
         return this.x * other.x + this.y * other.y;
     }
 
+    /**
+     * 
+     * @returns {Vector2} copy of this vector
+     */
     copy(){
         return new Vector2(this.x, this.y);
     }
@@ -68,15 +77,16 @@ export default class Vector2{
     /**
      * 
      * @param {Vector2} other 
+     * @returns {Number} distance between the two positions
      */
     dist(other){
-        Math.sqrt(this.dist_nosqrt(other));
+        return Math.sqrt(this.dist_nosqrt(other));
     }
 
     /**
      * 
      * @param {Vector2} other 
-     * @returns 
+     * @returns {Number}
      */
     dist_nosqrt(other){
         return (this.x - other.x)**2 + (this.y - other.y)**2;

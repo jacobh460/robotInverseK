@@ -1,10 +1,10 @@
-import Vector2 from "./libraries/vector2.js";
-import Point from "./libraries/point.js";
-import Utils from "./libraries/utils.js";
-import Robot from "./libraries/robot.js";
-import InputManager from "./libraries/inputManager.js";
-import CurveManager from "./libraries/curveManager.js";
-import Spline from "./libraries/Spline.js";
+import Vector2 from "./modules/vector2.js";
+import Point from "./modules/point.js";
+import Utils from "./modules/utils.js";
+import {Robot, Configuration} from "./modules/robot.js";
+import InputManager from "./modules/inputManager.js";
+import CurveManager from "./modules/curveManager.js";
+import Spline from "./modules/Spline.js";
 
 /** @type {HTMLCanvasElement} */
 const canvas = document.getElementById("mainCanvas");
@@ -87,9 +87,9 @@ ctx.setTransform(1, 0, 0, -1, 0, 0);
 
 
 
-let lastTime = (new Date()).getTime();
+let lastTime = Date.now();
 function loop() {
-    const newTime = (new Date()).getTime();
+    const newTime = Date.now();
     const deltaTime = (newTime - lastTime)/1000.0;
     lastTime = newTime;
 
@@ -108,8 +108,7 @@ function loop() {
     if (curveManager.currentCurve.points.length > 0)
     {
         t = timeControl.value * curveManager.currentCurve.points[curveManager.currentCurve.points.length - 1].t;
-        const targetPos = curveManager.currentCurve.evaluate(t);
-        robot.doInverseKinematics(targetPos);
+        robot.configuration = curveManager.currentCurve.inverseKinematics(robot, t);
     }
     curveManager.draw(ctx, 0.05);
     robot.draw(ctx);

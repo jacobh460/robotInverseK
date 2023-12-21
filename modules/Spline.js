@@ -1,5 +1,7 @@
 import Point from "./point.js";
 import Vector2 from "./vector2.js";
+import {Robot} from "./robot.js";
+import Utils from "./utils.js";
 
 class set_element{
     constructor(a, b, c, d, x){
@@ -100,13 +102,76 @@ export default class Spline {
         this.set_y = this.#spline_impl(false);
     }
 
-    evaluate(t){
-        let current_piece = 0;
-        if (this.points.length == 0) return new Vector2(15, 115);
-        if (this.points.length == 1) return this.points[0].position;
-        if (this.set_x.length == 0) return this.points[this.points.length - 1].position;
+    /**
+     * 
+     * @param {Robot} robot 
+     * @param {Number} t 
+     */
+    inverseKinematics(robot, t){
+        const position = this.evaluate(t);
+        //determine which two points t is between
+        if (this.points.length == 0) return position;
 
-        while (t > this.points[current_piece + 1].t) current_piece++;
+            //if there is only one point, don't interpolate
+        if (this.points.length == 1){
+            if (this.points[0].L1 != null) return robot.doInverseKinematics_L1(position, this.points[0].L1);
+            if (this.points[0].thetaB != null) return robot.doInverseKinematics_thetab(position, this.points[0].thetaB);
+            return robot.doInverseKinematics(position);
+        }
+
+        let i = 1;
+        while (t > this.points[i].t) ++i;
+
+        //check if interpolation is even needed
+        if (!(this.points[i].mustInterpolate || this.points[i-1].mustInterpolate)) return robot.doInverseKinematics(position);
+
+        //robot cannot interpolate between different lift heights and different wrist angles
+        if ((this.points[i].L1 != null && this.points[i-1].thetaB != null) || (this.points[i].thetaB != null && this.points[i-1].L1 != null)) 
+            return robot.doInverseKinematics(position); //just ignore the user-defined angles
+
+        //determine which value to interpolate
+        if (this.points[i].thetaB != null || this.points[i-1].thetaB != null){ //need to interpolate thetaB
+            //fill in missing values by performing inverse kinematics
+            let first = this.points[i-1].thetaB;
+            let second = this.points[i].thetaB;
+            if (first == null)
+                first = robot.doInverseKinematics(this.points[i-1].position).thetaB;
+            else if (second == null)
+                second = robot.doInverseKinematics(this.points[i].position).thetaB;
+
+            //lerp
+            const newTheta = Utils.lerp(this.points[i-1].t, first, this.points[i].t, second, t);
+
+            //run inverse kinematics
+            return robot.doInverseKinematics_thetab(position, newTheta);
+        }
+        else{ //need to interpolate lift height
+            //fill in missing values by performing inverse kinematics
+            let first = this.points[i-1].L1;
+            let second = this.points[i].L1;
+            if (first == null)
+                first = robot.doInverseKinematics(this.points[i-1].position).L1;
+            else if (second == null)
+                second = robot.doInverseKinematics(this.points[i].position).L1;
+
+            //lerp
+            const newL1 = Utils.lerp(this.points[i-1].t, first, this.points[i].t, second, t);
+
+            //run inverse kinematics 
+            return robot.doInverseKinematics_L1(position, newL1);
+        }
+
+    }
+
+    evaluate(t){
+        if (this.points.length == 0) return new Vector2(15, 115);//just fudged these numbers because they don't matter
+        if (this.points.length == 1) return this.points[0].position;
+        if (this.set_x.length == 0 || this.set_y.length == 0) return this.points[this.points.length - 1].position;
+
+
+        //determine which piece of the piecewise function needs to be evaluated
+        let current_piece = 0;
+        while (t > this.points[current_piece + 1].t) ++current_piece;
 
         let x;
         {
