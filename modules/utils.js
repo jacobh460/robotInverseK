@@ -38,4 +38,27 @@ export default class Utils{
         return (y0 * (x1 - x) + y1 * (x - x0))/(x1 - x0);
     }
 
+
+
+    /**
+     * 
+     * @param {Number} x 
+     * @param {Number} min 
+     * @param {Number} max 
+     * @returns 
+     */
+    static clamp(x, min, max){
+        return Math.max(Math.min(x, max), min)
+    }
+
+    /**
+     * returns the equivalent of an angle within the range 0 <= theta <= 2*PI
+     * @param {Number} angle in radians
+     * @returns {Number}
+     */
+    static normalize_angle(angle){
+        const x = angle % (2*Math.PI);
+        return x < 0 ? x + Math.PI * 2 : x;
+    }
+
 }

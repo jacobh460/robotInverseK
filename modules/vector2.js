@@ -91,4 +91,16 @@ export default class Vector2{
     dist_nosqrt(other){
         return (this.x - other.x)**2 + (this.y - other.y)**2;
     }
+
+    /**
+     * 
+     * @param {Number} theta angle in radians to rotate by
+     * @returns {Vector2} rotated vector
+     */
+    rotate(theta){
+        return new Vector2(
+            this.x * Math.cos(theta) - this.y * Math.sin(theta),
+            this.x * Math.sin(theta) + this.y * Math.cos(theta)
+        );
+    }
 }

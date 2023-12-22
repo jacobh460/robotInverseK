@@ -109,16 +109,16 @@ export default class Spline {
      */
     inverseKinematics(robot, t){
         const position = this.evaluate(t);
-        //determine which two points t is between
         if (this.points.length == 0) return position;
 
             //if there is only one point, don't interpolate
         if (this.points.length == 1){
             if (this.points[0].L1 != null) return robot.doInverseKinematics_L1(position, this.points[0].L1);
-            if (this.points[0].thetaB != null) return robot.doInverseKinematics_thetab(position, this.points[0].thetaB);
+            if (this.points[0].thetaB != null) return robot.doInverseKinematics_thetab(position, Utils.deg2rad(this.points[0].thetaB));
             return robot.doInverseKinematics(position);
         }
 
+        //determine which two points t is between
         let i = 1;
         while (t > this.points[i].t) ++i;
 
@@ -134,10 +134,19 @@ export default class Spline {
             //fill in missing values by performing inverse kinematics
             let first = this.points[i-1].thetaB;
             let second = this.points[i].thetaB;
+
+
             if (first == null)
                 first = robot.doInverseKinematics(this.points[i-1].position).thetaB;
-            else if (second == null)
+            else first = Utils.deg2rad(first); //user is expected to enter an angle in degrees
+
+            if (second == null)
                 second = robot.doInverseKinematics(this.points[i].position).thetaB;
+            else second = Utils.deg2rad(second);
+
+            //avoid wacky interpolation
+            first = Utils.normalize_angle(first);
+            second = Utils.normalize_angle(second);
 
             //lerp
             const newTheta = Utils.lerp(this.points[i-1].t, first, this.points[i].t, second, t);

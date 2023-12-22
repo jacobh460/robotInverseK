@@ -86,6 +86,30 @@ function drawGrid(){
 ctx.setTransform(1, 0, 0, -1, 0, 0);
 
 
+/**
+ * very resource intensive!!! but also kinda nice
+ * @param {Number} resolution 
+ */
+function tracePath(resolution){
+    if (curveManager.currentCurve.points.length < 2) return;
+    const endt = curveManager.currentCurve.points[curveManager.currentCurve.points.length - 1].t;
+    const step = endt/resolution;
+    const startPos = robot.forwardKinematics(curveManager.currentCurve.inverseKinematics(robot, 0));
+    const endPos = robot.forwardKinematics(curveManager.currentCurve.inverseKinematics(robot, endt));
+
+    ctx.strokeStyle = "#a8a136";
+    ctx.lineWidth = 1;
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+    ctx.beginPath();
+    ctx.moveTo(startPos.x, startPos.y);
+    for (let t = step; t < endt; t += step){
+        const pos = robot.forwardKinematics(curveManager.currentCurve.inverseKinematics(robot, t));
+        ctx.lineTo(pos.x, pos.y);
+    }
+    ctx.lineTo(endPos.x, endPos.y);
+    ctx.stroke();
+}
 
 let lastTime = Date.now();
 function loop() {
@@ -110,8 +134,9 @@ function loop() {
         t = timeControl.value * curveManager.currentCurve.points[curveManager.currentCurve.points.length - 1].t;
         robot.configuration = curveManager.currentCurve.inverseKinematics(robot, t);
     }
+    if (inputManager.drawHandPath) tracePath(200);
     curveManager.draw(ctx, 0.05);
-    robot.draw(ctx);
+    robot.draw(ctx, inputManager.drawReach);
 
     {
         const oldTransform = ctx.getTransform();
@@ -123,6 +148,8 @@ function loop() {
         log(`${oldTransform.a}, ${oldTransform.b}, ${oldTransform.c}, ${oldTransform.d}, ${oldTransform.e}, ${oldTransform.f}`)
         log(`FPS: ${Math.round(1/deltaTime)}`);
         log(`t: ${t}`);
+        log(`[Q] Trace ${inputManager.drawHandPath ? "On" : "Off"} (can drop fps)`);
+        log(`[W] Reach ${inputManager.drawReach ? "On" : "Off"}`);
 
         ctx.setTransform(oldTransform);
     }

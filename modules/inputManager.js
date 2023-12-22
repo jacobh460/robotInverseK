@@ -3,7 +3,7 @@ import Utils from "./utils.js";
 
 export default class InputManager {
 
-    /** @param {ctx.canvasRenderingContext2D} renderingContext  */
+    /** @param {CanvasRenderingContext2D} renderingContext  */
     constructor(renderingContext) {
         this.ctx = renderingContext;
 
@@ -22,6 +22,22 @@ export default class InputManager {
 
         this.mouseLeftDown = false;
 
+        this.drawHandPath = false;
+
+        this.drawReach = false;
+
+        renderingContext.canvas.addEventListener("keyup", (e) => {
+            switch (e.key){
+                case "q":
+                    this.drawHandPath = !this.drawHandPath;
+                    break;
+                case "w":
+                    this.drawReach = !this.drawReach;
+                    break;
+                default:
+                    break;
+            }
+        });
 
         /** @type {boolean} */
         this.panning = false;

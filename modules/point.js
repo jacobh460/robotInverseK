@@ -59,6 +59,8 @@ export default class Point{
         this.element.children[0].children[0].value = this.position.x.toFixed(3);
         this.element.children[0].children[1].value = this.position.y.toFixed(3);
         this.element.children[0].children[2].value = this.t.toFixed(3);
+        this.element.children[1].children[1].value = this.thetaB == null ? "" : Number(this.thetaB);
+        this.element.children[1].children[3].value = this.L1 == null ? "" : Number(this.L1);
     }
 
     #updatePoint(){
@@ -67,8 +69,6 @@ export default class Point{
         this.t = Number(this.element.children[0].children[2].value);
         this.thetaB = this.element.children[1].children[1].value == "" ? null : Number(this.element.children[1].children[1].value);
         this.L1 = this.element.children[1].children[3].value == "" ? null : Number(this.element.children[1].children[3].value);
-    
-        console.log(this);
     }
 
     createElement(){
