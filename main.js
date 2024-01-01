@@ -1,7 +1,7 @@
 import Vector2 from "./modules/vector2.js";
 import Point from "./modules/point.js";
 import Utils from "./modules/utils.js";
-import {Robot, Configuration} from "./modules/robot.js";
+import {Manipulator, Configuration} from "./modules/manipulator.js";
 import InputManager from "./modules/inputManager.js";
 import CurveManager from "./modules/curveManager.js";
 import Spline from "./modules/Spline.js";
@@ -15,10 +15,10 @@ const left = document.getElementById("left");
 
 const timeControl = document.getElementById("timeControl");
 
-const centimeter = 10;
+const inch = 10;
 
-/** @type {Robot} */
-const robot = new Robot();
+/** @type {Manipulator} */
+const robot = new Manipulator();
 
 /** @type {InputManager} */
 const inputManager = new InputManager(ctx);
@@ -65,7 +65,7 @@ function drawGrid(){
     ctx.lineWidth = 0.5;
 
     ctx.beginPath();
-    const width = centimeter * transform.a;
+    const width = inch * transform.a;
 
     for (let i = transform.e % width; i <= canvas.width; i += width){
         ctx.moveTo(i, 0);

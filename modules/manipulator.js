@@ -16,7 +16,7 @@ export class Configuration{
 }
 
 
-export class Robot {
+export class Manipulator {
 
     constructor() {
         this.L2 = 70;
@@ -160,4 +160,4 @@ export class Robot {
 
 }
 
-export default {Robot, Configuration}
+export default {Manipulator, Configuration}

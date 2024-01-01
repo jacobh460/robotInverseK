@@ -1,6 +1,6 @@
 import Point from "./point.js";
 import Vector2 from "./vector2.js";
-import {Robot} from "./robot.js";
+import {Manipulator} from "./manipulator.js";
 import Utils from "./utils.js";
 
 class set_element{
@@ -104,7 +104,7 @@ export default class Spline {
 
     /**
      * 
-     * @param {Robot} robot 
+     * @param {Manipulator} robot 
      * @param {Number} t 
      */
     inverseKinematics(robot, t){
