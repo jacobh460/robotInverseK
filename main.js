@@ -18,7 +18,7 @@ const timeControl = document.getElementById("timeControl");
 const inch = 10;
 
 /** @type {Manipulator} */
-const robot = new Manipulator();
+const manipulator = new Manipulator();
 
 /** @type {InputManager} */
 const inputManager = new InputManager(ctx);
@@ -94,8 +94,8 @@ function tracePath(resolution){
     if (curveManager.currentCurve.points.length < 2) return;
     const endt = curveManager.currentCurve.points[curveManager.currentCurve.points.length - 1].t;
     const step = endt/resolution;
-    const startPos = robot.forwardKinematics(curveManager.currentCurve.inverseKinematics(robot, 0));
-    const endPos = robot.forwardKinematics(curveManager.currentCurve.inverseKinematics(robot, endt));
+    const startPos = manipulator.forwardKinematics(curveManager.currentCurve.inverseKinematics(manipulator, 0));
+    const endPos = manipulator.forwardKinematics(curveManager.currentCurve.inverseKinematics(manipulator, endt));
 
     ctx.strokeStyle = "#a8a136";
     ctx.lineWidth = 1;
@@ -104,7 +104,7 @@ function tracePath(resolution){
     ctx.beginPath();
     ctx.moveTo(startPos.x, startPos.y);
     for (let t = step; t < endt; t += step){
-        const pos = robot.forwardKinematics(curveManager.currentCurve.inverseKinematics(robot, t));
+        const pos = manipulator.forwardKinematics(curveManager.currentCurve.inverseKinematics(manipulator, t));
         ctx.lineTo(pos.x, pos.y);
     }
     ctx.lineTo(endPos.x, endPos.y);
@@ -132,11 +132,11 @@ function loop() {
     if (curveManager.currentCurve.points.length > 0)
     {
         t = timeControl.value * curveManager.currentCurve.points[curveManager.currentCurve.points.length - 1].t;
-        robot.configuration = curveManager.currentCurve.inverseKinematics(robot, t);
+        manipulator.configuration = curveManager.currentCurve.inverseKinematics(manipulator, t);
     }
     if (inputManager.drawHandPath) tracePath(200);
     curveManager.draw(ctx, 0.05);
-    robot.draw(ctx, inputManager.drawReach);
+    manipulator.draw(ctx, inputManager.drawReach);
 
     {
         const oldTransform = ctx.getTransform();
