@@ -145,11 +145,12 @@ export default class Spline {
             else second = Utils.deg2rad(second);
 
             //avoid wacky interpolation
-            const shortest = Utils.shortest_angle(start, end);
+            const shortest = Utils.shortest_angle(first, second);
 
 
             //lerp
-            const newTheta = Utils.lerp(this.points[i-1].t, first, this.points[i].t, first + shortest, t);
+            //const newTheta = Utils.lerp(this.points[i-1].t, first, this.points[i].t, first + shortest, t);
+            const newTheta = first + shortest * (t - this.points[i-1].t)/(this.points[i].t-this.points[i-1].t);
 
             //run inverse kinematics
             return robot.doInverseKinematics_thetab(position, newTheta);

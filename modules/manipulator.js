@@ -125,7 +125,7 @@ export class Manipulator {
         const theta1 = Math.PI - Math.asin(d * sin_theta3 / this.L2);
 
 
-        config.thetaA = theta1 - this.liftAngle + Math.PI/3;
+        config.thetaA = theta1 - Math.PI + theta3 + theta2;
         config.L1 = Utils.clamp(this.L2 * Math.sin(Math.PI - theta3 - theta1) / sin_theta3, this.L1min, this.L1max);
         return config;
     }

@@ -97,7 +97,7 @@ function tracePath(resolution){
     const endPos = manipulator.forwardKinematics(curveManager.currentCurve.inverseKinematics(manipulator, endt));
 
     ctx.strokeStyle = "#a8a136";
-    ctx.lineWidth = 1.5;
+    ctx.lineWidth = 0.35;
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
     ctx.beginPath();
