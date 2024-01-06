@@ -3,7 +3,6 @@ import Vector2 from "./vector2.js";
 
 export default class Utils{
 
-
     /**
      * 
      * @param {CanvasRenderingContext2D} context 
@@ -61,4 +60,11 @@ export default class Utils{
         return x < 0 ? x + Math.PI * 2 : x;
     }
 
+    static acos(i){
+        return Math.acos(Utils.clamp(i, -1.0, 1.0));
+    }
+
+    static shortest_angle(start, end){
+        return ((((end - start) % (2 * Math.PI)) + (3 * Math.PI)) % (2 * Math.PI)) - Math.PI;
+    }
 }

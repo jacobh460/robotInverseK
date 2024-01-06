@@ -145,11 +145,12 @@ export default class Spline {
             else second = Utils.deg2rad(second);
 
             //avoid wacky interpolation
-            first = Utils.normalize_angle(first);
-            second = Utils.normalize_angle(second);
+            const shortest = Utils.shortest_angle(start, end);
+            alert(shortest);
+
 
             //lerp
-            const newTheta = Utils.lerp(this.points[i-1].t, first, this.points[i].t, second, t);
+            const newTheta = Utils.lerp(this.points[i-1].t, first, this.points[i].t, first + shortest, t);
 
             //run inverse kinematics
             return robot.doInverseKinematics_thetab(position, newTheta);
@@ -204,7 +205,7 @@ export default class Spline {
      * @param {Number} step resolution
      */
     draw(ctx, step = 0.05) {
-        ctx.lineWidth = 1;
+        ctx.lineWidth = 0.35;
         ctx.strokeStyle = "#49b74d";
         ctx.lineCap = "round";
         ctx.lineJoin = "bevel";

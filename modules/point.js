@@ -1,3 +1,4 @@
+import Utils from "./utils.js";
 import Vector2 from "./vector2.js";
 
 
@@ -22,7 +23,7 @@ export default class Point{
      * @param {Number} radius 
      * @param {String} color 
      */
-    constructor(x, y, t, radius=3){
+    constructor(x, y, t, radius=0.65){
         this.#position = new Vector2(x, y);
         this.hidden = false;
         this.radius = radius;
@@ -78,8 +79,7 @@ export default class Point{
         newElement.className = "pointData";
         const positionDiv = document.createElement("div");
         positionDiv.className = "position";
-        const classes = ["pointProperty left", "pointProperty left right", "pointProperty right"];
-        for (const cla of classes){
+        for (const cla of ["pointProperty left", "pointProperty left right", "pointProperty right"]){
             const input = document.createElement("input");
             input.type = "number";
             input.className = cla;

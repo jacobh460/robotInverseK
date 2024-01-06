@@ -15,7 +15,6 @@ const left = document.getElementById("left");
 
 const timeControl = document.getElementById("timeControl");
 
-const inch = 10;
 
 /** @type {Manipulator} */
 const manipulator = new Manipulator();
@@ -65,7 +64,7 @@ function drawGrid(){
     ctx.lineWidth = 0.5;
 
     ctx.beginPath();
-    const width = inch * transform.a;
+    const width = transform.a;
 
     for (let i = transform.e % width; i <= canvas.width; i += width){
         ctx.moveTo(i, 0);
@@ -98,7 +97,7 @@ function tracePath(resolution){
     const endPos = manipulator.forwardKinematics(curveManager.currentCurve.inverseKinematics(manipulator, endt));
 
     ctx.strokeStyle = "#a8a136";
-    ctx.lineWidth = 1;
+    ctx.lineWidth = 1.5;
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
     ctx.beginPath();

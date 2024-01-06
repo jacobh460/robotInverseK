@@ -60,7 +60,7 @@ export default class Vector2{
     /**
      * 
      * @param {Vector2} other 
-     * @returns {Vector2}
+     * @returns {Number}
      */
     dot(other){
         return this.x * other.x + this.y * other.y;
