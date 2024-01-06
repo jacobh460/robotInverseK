@@ -146,7 +146,6 @@ export default class Spline {
 
             //avoid wacky interpolation
             const shortest = Utils.shortest_angle(start, end);
-            alert(shortest);
 
 
             //lerp
