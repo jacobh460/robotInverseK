@@ -82,7 +82,7 @@ function drawGrid(){
 }
 
 //make up direction be positive y
-ctx.setTransform(1, 0, 0, -1, 0, 0);
+ctx.setTransform(25, 0, 0, -25, 1000, 500);
 
 
 /**
@@ -147,6 +147,9 @@ function loop() {
         log(`${oldTransform.a}, ${oldTransform.b}, ${oldTransform.c}, ${oldTransform.d}, ${oldTransform.e}, ${oldTransform.f}`)
         log(`FPS: ${Math.round(1/deltaTime)}`);
         log(`t: ${t}`);
+        log("Scroll to ZOOM");
+        log("Hold MMB to PAN");
+        
         log(`[Q] Trace ${inputManager.drawHandPath ? "On" : "Off"} (can drop fps)`);
         log(`[W] Reach ${inputManager.drawReach ? "On" : "Off"}`);
 

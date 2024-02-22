@@ -69,7 +69,7 @@ export default class InputManager {
             this.mousePos = new Vector2(e.offsetX, e.offsetY);
         });
 
-        this.zoom = 1;
+        this.zoom = 25;
 
         renderingContext.canvas.addEventListener("wheel", (e) => {
             this.zoom = Math.max(1, this.zoom *  (e.deltaY < 0 ? 1.5 : 1/1.5));

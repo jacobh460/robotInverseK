@@ -28,7 +28,7 @@ export class Manipulator {
         this.L1max = 23;
 
 
-        this.configuration = new Configuration(50, Math.PI / 2, 0);
+        this.configuration = new Configuration(this.L1min, Math.PI / 2, 0);
     }
 
     /**
