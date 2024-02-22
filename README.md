@@ -9,3 +9,5 @@ Controls:
 - Hold middle mouse button and drag to pan
 - Scroll to zoom in/out
 - Add points by pressing the plus button on the right
+- Q turns on trace which draws a line showing the path the robot arm will actually take (as opposed to the spline which the arm sometimes cannot reach)
+- W highlights the area the arm can reach anywhere within
